@@ -13,6 +13,11 @@ let colorArray = ['DeepPink','GreenYellow', 'LightSeaGreen', 'Gold', 'DarkOrchid
 let rows = 15, columns = 15;
 let deltaT = 0.5, animationTime = 200;
 
+let scoreBlock = {
+	combo: 1,
+	tileNum: 0,
+	scorenum: null
+}
 
 function Tile(i, j) {
 		this.id = i + '_' + j,
@@ -119,7 +124,7 @@ let	canvas = {
 
 	listenerMouseDown: function () {
 		let self = this;
-		document.onmousedown = function (e) {
+		boardElement.onmousedown = function (e) {
 			if (self.userInput) {
 				let startXPos, startYPos;
 				startXPos = e.pageX;
@@ -222,7 +227,9 @@ let	canvas = {
   			if (this.matches.length == 0) {
   				this.swappedElements = [];
   				this.initTileProperties();
-  			    this.fillAnimation(this.calcStartRowFill(), deltaT);
+  				if (this.calcStartRowFill() >= 0) {
+  					this.fillAnimation(this.calcStartRowFill(), deltaT);
+  				}
   			    this.userInput = true;
   			} else {
   				this.addParameters(this.matches);
