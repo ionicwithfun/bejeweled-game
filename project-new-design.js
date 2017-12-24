@@ -501,6 +501,9 @@ function startGame(rows, columns) {
 	};
 	//animate filling
 	canvas.completeFill();
+	let audio = new Audio('Hope.mp3');
+	audio.play();
+
 	scoreBlock.combo = 1;
 	scoreBlock.scoreNum = 0;
 	scoreBlock.tileNum = 0;
