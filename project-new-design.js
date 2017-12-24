@@ -7,6 +7,8 @@ let tileBorderWidth = parseInt(tileElementStyle.borderWidth, 10),
 	tileElementHeight = parseInt(tileElementStyle.height, 10);
 tileElement.parentNode.removeChild(tileElement);
 
+let scoreElement = document.getElementById("score-num");
+
 let	tileWidth = tileElementWidth + (tileBorderWidth * 2), tileHeight = tileElementHeight + (tileBorderWidth * 2); 
 let colorArray = ['DeepPink','GreenYellow', 'LightSeaGreen', 'Gold', 'DarkOrchid'];
 
@@ -16,7 +18,7 @@ let deltaT = 0.5, animationTime = 200;
 let scoreBlock = {
 	combo: 1,
 	tileNum: 0,
-	scorenum: null
+	scoreNum: 0
 }
 
 function Tile(i, j) {
@@ -208,7 +210,13 @@ let	canvas = {
   				this.swapTiles(swappedElements);
   				this.swappedElements = [];
   				this.userInput = true;
+  				scoreBlock.combo = 1;
+  				scoreBlock.tileNum = 0;
   			} else {
+  				scoreBlock.combo = 1;
+  				scoreBlock.tileNum = this.matches.length;
+  				scoreBlock.scoreNum += scoreBlock.combo * scoreBlock.tileNum;
+  				scoreElement.innerHTML = scoreBlock.scoreNum;
   				this.addParameters(this.matches);
   				this.removeTiles(this.matches);
   			}
@@ -225,6 +233,8 @@ let	canvas = {
   				i += 2;
   			}
   			if (this.matches.length == 0) {
+  				scoreBlock.combo = 1;
+  				scoreBlock.tileNum = 0;
   				this.swappedElements = [];
   				this.initTileProperties();
   				if (this.calcStartRowFill() >= 0) {
@@ -232,6 +242,10 @@ let	canvas = {
   				}
   			    this.userInput = true;
   			} else {
+  				scoreBlock.combo += 1;
+  				scoreBlock.tileNum = this.matches.length;
+  				scoreBlock.scoreNum += scoreBlock.combo * scoreBlock.tileNum;
+  				scoreElement.innerHTML = scoreBlock.scoreNum;
   				this.addParameters(this.matches);
   				this.removeTiles(this.matches);
   			}
@@ -487,7 +501,10 @@ function startGame(rows, columns) {
 	};
 	//animate filling
 	canvas.completeFill();
-
+	scoreBlock.combo = 1;
+	scoreBlock.scoreNum = 0;
+	scoreBlock.tileNum = 0;
+	scoreElement.innerHTML = 0;
 }
 
 
